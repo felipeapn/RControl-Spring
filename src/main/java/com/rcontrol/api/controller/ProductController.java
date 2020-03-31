@@ -1,5 +1,6 @@
 package com.rcontrol.api.controller;
 
+import java.net.URI;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.rcontrol.api.model.Product;
 import com.rcontrol.api.repository.ProductRepository;
@@ -49,9 +51,11 @@ public class ProductController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Product> create(@Valid @RequestBody Product product, HttpServletResponse response) {
+	public ResponseEntity<Product> create(@Valid @RequestBody Product product, UriComponentsBuilder uriBuilder) {
 		Product productSaved = productRepository.save(product);
-		return ResponseEntity.status(HttpStatus.CREATED).body(productSaved);
+		
+		URI uri = uriBuilder.path("/product/{id}").buildAndExpand(productSaved.getId()).toUri();
+		return ResponseEntity.created(uri).body(productSaved);
 	}
 	
 	@PutMapping("/{id}")

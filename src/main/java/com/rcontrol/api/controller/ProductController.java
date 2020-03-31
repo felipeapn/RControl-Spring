@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -37,16 +37,15 @@ public class ProductController {
 	
 	@Autowired
 	private ProductService productService;
-	
+		
 	@GetMapping
 	public List<Product> findAll() {
-		
 		return productRepository.findAll();
 	}
 	
 	@GetMapping("/{id}")
 	public Product findById(@PathVariable Long id) {
-		return productRepository.findById(id).orElse(null);
+		return productRepository.findById(id).orElseThrow(() -> new EmptyResultDataAccessException(1));
 	}
 	
 	@PostMapping

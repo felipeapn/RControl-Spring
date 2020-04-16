@@ -1,7 +1,9 @@
 package com.rcontrol.api.model;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,6 +17,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.AllArgsConstructor;
@@ -51,6 +54,13 @@ public class User implements UserDetails{
 	joinColumns = @JoinColumn(name = "id_user"),
 	inverseJoinColumns = @JoinColumn(name = "id_role"))
 	private List<Role> roles;
+	
+	public Collection<? extends GrantedAuthority> getSimpleAuthorities() {
+		Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+		this.getRoles()
+			.forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getRole().toUpperCase())));
+		return authorities;
+	}
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

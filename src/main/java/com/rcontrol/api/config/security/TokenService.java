@@ -1,6 +1,8 @@
 package com.rcontrol.api.config.security;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -24,7 +26,13 @@ public class TokenService {
 	public String generateToken(Authentication authentication) {
 		User loggedUser = (User) authentication.getPrincipal();
 
+		Map<String, Object> addInfo = new HashMap<>();
+		addInfo.put("firstName", loggedUser.getFirstName());
+		addInfo.put("lastName", loggedUser.getLastName());
+		addInfo.put("Authorities", loggedUser.getSimpleAuthorities().toString());
+				
 		return Jwts.builder()
+				.setClaims(addInfo)
 				.setIssuer("RControl")
 				.setSubject(loggedUser.getEmail())
 				.setIssuedAt(new Date())

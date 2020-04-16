@@ -1,0 +1,12 @@
+{"properties": [
+  {
+    "name": "rcontrol.jwt.expiration",
+    "type": "java.lang.String",
+    "description": "A description for 'rcontrol.jwt.expiration'"
+  },
+  {
+    "name": "rcontrol.jwt.secret",
+    "type": "java.lang.String",
+    "description": "A description for 'rcontrol.jwt.secret'"
+  }
+]}

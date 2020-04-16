@@ -3,7 +3,6 @@ package com.rcontrol.api.controller;
 import java.net.URI;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +26,8 @@ import com.rcontrol.api.repository.ProductRepository;
 import com.rcontrol.api.service.ProductService;
 
 @RestController
-@RequestMapping("product")
-@CrossOrigin(origins = "http://192.168.0.12:4200")
+@RequestMapping("products")
+@CrossOrigin(origins = "http://localhost:4200")
 //TODO: Configurar CORS global. Tutorial - https://www.tutorialspoint.com/spring_boot/spring_boot_cors_support.htm.	
 
 
@@ -54,7 +53,7 @@ public class ProductController {
 	public ResponseEntity<Product> create(@Valid @RequestBody Product product, UriComponentsBuilder uriBuilder) {
 		Product productSaved = productRepository.save(product);
 		
-		URI uri = uriBuilder.path("/product/{id}").buildAndExpand(productSaved.getId()).toUri();
+		URI uri = uriBuilder.path("/products/{id}").buildAndExpand(productSaved.getId()).toUri();
 		return ResponseEntity.created(uri).body(productSaved);
 	}
 	

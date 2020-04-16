@@ -32,20 +32,13 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 		
 		String token = retriveToken(request);
-		System.out.println(token + "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< filter");
-		
+	
 		boolean tokenValid = tokenService.isTokenValid(token);
-		System.out.println(tokenValid + "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<filter");
 		
 		if(tokenValid) {
 			authenticateClient(token);
 		}
-		
-		System.out.println(request.getRequestURI());
-		System.out.println(request.getRemoteHost());
-		System.out.println(request.getCharacterEncoding());
-		System.out.println(request.getMethod());
-		
+			
 		filterChain.doFilter(request, response);
 	}
 

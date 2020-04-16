@@ -33,12 +33,10 @@ public class AuthController {
 	@PostMapping
 	public ResponseEntity<?> authenticate (@RequestBody @Valid LoginForm form) {
 		
-		System.out.println("Post auth <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 		UsernamePasswordAuthenticationToken loginData = form.convert();
 		try {
 			Authentication authentication = authenticationManager.authenticate(loginData);
 			String token = tokenService.generateToken(authentication);
-			System.out.println(token);
 			return ResponseEntity.ok(new tokenDto(token, "bearer"));
 			
 		} catch (AuthenticationException e) {

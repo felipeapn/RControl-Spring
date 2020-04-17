@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
@@ -54,6 +55,10 @@ public class User implements UserDetails{
 	joinColumns = @JoinColumn(name = "id_user"),
 	inverseJoinColumns = @JoinColumn(name = "id_role"))
 	private List<Role> roles;
+	
+	@OneToMany
+	@JoinColumn(name = "id_user")
+	private List<Address> addresses;
 	
 	public Collection<? extends GrantedAuthority> getSimpleAuthorities() {
 		Set<SimpleGrantedAuthority> authorities = new HashSet<>();
